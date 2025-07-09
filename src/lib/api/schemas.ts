@@ -35,8 +35,7 @@ export const LoginRequestSchema = z.object({
 export const RegisterRequestSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  first_name: z.string().min(1),
-  last_name: z.string().min(1),
+  name: z.string().min(1),
   rut: z.string().regex(/^\d{7,8}-[\dK]$/, 'Invalid RUT format'),
   phone: z.string().optional(),
 })

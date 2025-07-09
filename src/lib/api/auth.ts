@@ -28,7 +28,13 @@ export const authApi = {
   },
 
   // User registration
-  register: async (userData: RegisterRequest): Promise<AuthResponse> => {
+  register: async (userData: RegisterRequest | {
+    email: string
+    password: string
+    name: string
+    rut: string
+    phone?: string
+  }): Promise<AuthResponse> => {
     const validatedUserData = RegisterRequestSchema.parse(userData)
     
     return apiRequest(

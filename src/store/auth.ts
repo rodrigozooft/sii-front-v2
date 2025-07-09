@@ -77,7 +77,16 @@ export const useAuthStore = create<AuthStore>()(
         })
 
         try {
-          const response: AuthResponse = await authApi.register(userData)
+          // Transform userData to match API expectations
+          const apiPayload = {
+            email: userData.email,
+            password: userData.password,
+            name: `${userData.first_name} ${userData.last_name}`,
+            rut: userData.rut,
+            phone: userData.phone,
+          }
+          
+          const response: AuthResponse = await authApi.register(apiPayload)
           
           // Store token securely
           localStorage.setItem('auth_token', response.access_token)
