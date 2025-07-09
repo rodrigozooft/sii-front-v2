@@ -58,10 +58,10 @@ vercel project ls
 
 ### Using Vercel Dashboard:
 1. Go to your project settings in Vercel
-2. The URL will be: `https://vercel.com/[ORG_NAME]/[PROJECT_NAME]/settings`
+2. The URL will be: `https://vercel.com/[TEAM_NAME]/[PROJECT_NAME]/settings`
 3. In Project Settings → General, you'll find:
    - Project ID (looks like: `prj_xxxxxxxxxxxx`)
-   - Team ID (your Org ID, looks like: `team_xxxxxxxxxxxx`)
+   - Team ID (this is your Org ID for GitHub Actions, looks like: `team_xxxxxxxxxxxx`)
 
 ## Step 5: Add Secrets to GitHub Repository
 
@@ -71,7 +71,7 @@ vercel project ls
 
 - `VERCEL_TOKEN`: The token from Step 3
 - `VERCEL_PROJECT_ID`: Your project ID from Step 4
-- `VERCEL_ORG_ID`: Your organization/team ID from Step 4
+- `VERCEL_ORG_ID`: Your Team ID from Step 4 (yes, use your Team ID here)
 
 Optional (for notifications):
 - `SLACK_WEBHOOK`: Your Slack webhook URL for deployment notifications
