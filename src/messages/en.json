@@ -1,0 +1,83 @@
+{
+  "auth": {
+    "signup": {
+      "title": "Create Account",
+      "subtitle": "Join SII AI Agentic Accounting System",
+      "personalInfo": "Personal Information",
+      "contactInfo": "Contact Information",
+      "security": "Security",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "rut": "Chilean RUT (e.g., 12.345.678-9)",
+      "email": "Email Address",
+      "phone": "Phone Number (optional, +56912345678)",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "createAccount": "Create Account",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "success": "Account created successfully! Welcome to SII Accounting System.",
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "passwordUppercase": "Password must contain at least one uppercase letter",
+        "passwordLowercase": "Password must contain at least one lowercase letter",
+        "passwordNumber": "Password must contain at least one number",
+        "passwordSpecial": "Password must contain at least one special character",
+        "passwordsNoMatch": "Passwords don't match",
+        "firstNameRequired": "First name is required",
+        "firstNameLength": "First name must be less than 50 characters",
+        "firstNameInvalid": "First name must contain only letters",
+        "lastNameRequired": "Last name is required",
+        "lastNameLength": "Last name must be less than 50 characters",
+        "lastNameInvalid": "Last name must contain only letters",
+        "rutInvalid": "Invalid RUT format",
+        "phoneInvalid": "Invalid Chilean phone format",
+        "registrationFailed": "Registration failed. Please try again."
+      }
+    },
+    "signin": {
+      "title": "Sign In",
+      "subtitle": "Access your SII System account",
+      "email": "Email Address",
+      "password": "Password",
+      "signIn": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "documents": "Documents",
+    "banking": "Banking",
+    "reports": "Reports",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "recentActivity": "Recent Activity",
+    "quickActions": "Quick Actions"
+  }
+}

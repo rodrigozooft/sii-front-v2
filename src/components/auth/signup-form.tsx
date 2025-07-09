@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/config'
 import { useAuthStore } from '@/store/auth'
 import { RutSchema, formatRut, cleanRut, ChileanPhoneSchema } from '@/utils/chile'
 import sanitizeHtml from 'sanitize-html'
@@ -15,39 +16,41 @@ import sanitizeHtml from 'sanitize-html'
 const { Title, Text } = Typography
 
 // Enhanced validation schema with Chilean-specific rules
-const SignupFormSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+const createSignupFormSchema = (t: any) => z.object({
+  email: z.string().email(t('auth.signup.errors.emailInvalid')),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/\d/, 'Password must contain at least one number')
-    .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
+    .min(8, t('auth.signup.errors.passwordMinLength'))
+    .regex(/[A-Z]/, t('auth.signup.errors.passwordUppercase'))
+    .regex(/[a-z]/, t('auth.signup.errors.passwordLowercase'))
+    .regex(/\d/, t('auth.signup.errors.passwordNumber'))
+    .regex(/[^A-Za-z0-9]/, t('auth.signup.errors.passwordSpecial')),
   confirmPassword: z.string(),
   firstName: z
     .string()
-    .min(1, 'First name is required')
-    .max(50, 'First name must be less than 50 characters')
-    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, 'First name must contain only letters'),
+    .min(1, t('auth.signup.errors.firstNameRequired'))
+    .max(50, t('auth.signup.errors.firstNameLength'))
+    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, t('auth.signup.errors.firstNameInvalid')),
   lastName: z
     .string()
-    .min(1, 'Last name is required')
-    .max(50, 'Last name must be less than 50 characters')
-    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, 'Last name must contain only letters'),
+    .min(1, t('auth.signup.errors.lastNameRequired'))
+    .max(50, t('auth.signup.errors.lastNameLength'))
+    .regex(/^[a-zA-ZÀ-ÿ\s]+$/, t('auth.signup.errors.lastNameInvalid')),
   rut: RutSchema,
   phone: ChileanPhoneSchema.optional(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+  message: t('auth.signup.errors.passwordsNoMatch'),
   path: ["confirmPassword"],
 })
-
-type SignupFormData = z.infer<typeof SignupFormSchema>
 
 export default function SignupForm(): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const { register, isLoading: authLoading } = useAuthStore()
+  const t = useTranslations()
+
+  const SignupFormSchema = createSignupFormSchema(t)
+  type SignupFormData = z.infer<typeof SignupFormSchema>
 
   const {
     control,
@@ -94,11 +97,11 @@ export default function SignupForm(): React.JSX.Element {
       }
 
       await register(sanitizedData)
-      message.success('Account created successfully! Welcome to SII Accounting System.')
+      message.success(t('auth.signup.success'))
       router.push('/dashboard')
     } catch (error) {
       console.error('Signup error:', error)
-      const errorMessage = error instanceof Error ? error.message : 'Registration failed. Please try again.'
+      const errorMessage = error instanceof Error ? error.message : t('auth.signup.errors.registrationFailed')
       message.error(errorMessage)
     } finally {
       setIsLoading(false)
@@ -126,10 +129,10 @@ export default function SignupForm(): React.JSX.Element {
       >
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <Title level={2} style={{ marginBottom: '8px', color: '#1890ff' }}>
-            Create Account
+            {t('auth.signup.title')}
           </Title>
           <Text type="secondary">
-            Join SII AI Agentic Accounting System
+            {t('auth.signup.subtitle')}
           </Text>
         </div>
 

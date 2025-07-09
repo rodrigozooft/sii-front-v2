@@ -1,0 +1,83 @@
+{
+  "auth": {
+    "signup": {
+      "title": "Crear Cuenta",
+      "subtitle": "Únete al Sistema de Contabilidad Inteligente SII",
+      "personalInfo": "Información Personal",
+      "contactInfo": "Información de Contacto",
+      "security": "Seguridad",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "rut": "RUT Chileno (ej. 12.345.678-9)",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono (opcional, +56912345678)",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "createAccount": "Crear Cuenta",
+      "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Iniciar Sesión",
+      "success": "¡Cuenta creada exitosamente! Bienvenido al Sistema de Contabilidad SII.",
+      "errors": {
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Por favor ingresa un correo electrónico válido",
+        "passwordRequired": "La contraseña es obligatoria",
+        "passwordMinLength": "La contraseña debe tener al menos 8 caracteres",
+        "passwordUppercase": "La contraseña debe contener al menos una letra mayúscula",
+        "passwordLowercase": "La contraseña debe contener al menos una letra minúscula",
+        "passwordNumber": "La contraseña debe contener al menos un número",
+        "passwordSpecial": "La contraseña debe contener al menos un carácter especial",
+        "passwordsNoMatch": "Las contraseñas no coinciden",
+        "firstNameRequired": "El nombre es obligatorio",
+        "firstNameLength": "El nombre debe tener menos de 50 caracteres",
+        "firstNameInvalid": "El nombre debe contener solo letras",
+        "lastNameRequired": "El apellido es obligatorio",
+        "lastNameLength": "El apellido debe tener menos de 50 caracteres",
+        "lastNameInvalid": "El apellido debe contener solo letras",
+        "rutInvalid": "Formato de RUT inválido",
+        "phoneInvalid": "Formato de teléfono chileno inválido",
+        "registrationFailed": "Error en el registro. Por favor intenta nuevamente."
+      }
+    },
+    "signin": {
+      "title": "Iniciar Sesión",
+      "subtitle": "Accede a tu cuenta del Sistema SII",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "signIn": "Iniciar Sesión",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUp": "Registrarse"
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "reset": "Restablecer"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "documents": "Documentos",
+    "banking": "Banco",
+    "reports": "Reportes",
+    "settings": "Configuración",
+    "profile": "Perfil",
+    "logout": "Cerrar Sesión"
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido de vuelta",
+    "overview": "Resumen",
+    "recentActivity": "Actividad Reciente",
+    "quickActions": "Acciones Rápidas"
+  }
+}

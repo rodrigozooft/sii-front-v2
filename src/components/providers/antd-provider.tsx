@@ -4,8 +4,13 @@ import React from 'react'
 import { ConfigProvider, theme, type ThemeConfig } from 'antd'
 import esES from 'antd/locale/es_ES'
 
-// Chilean-themed Ant Design configuration
-const chileanTheme: ThemeConfig = {
+interface AntdProviderProps {
+  children: React.ReactNode
+}
+
+export function AntdProvider({ children }: AntdProviderProps): React.JSX.Element {
+  // Chilean-themed Ant Design configuration
+  const chileanTheme: ThemeConfig = {
   algorithm: theme.defaultAlgorithm,
   token: {
     // Brand colors inspired by Chilean flag and professional accounting
@@ -62,11 +67,6 @@ const chileanTheme: ThemeConfig = {
   },
 }
 
-interface AntdProviderProps {
-  children: React.ReactNode
-}
-
-export function AntdProvider({ children }: AntdProviderProps): React.JSX.Element {
   return (
     <ConfigProvider
       theme={chileanTheme}

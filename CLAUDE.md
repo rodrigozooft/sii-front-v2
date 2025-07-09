@@ -97,12 +97,13 @@ src/
 
 ## 🔧 Technology Stack
 
-- **Framework**: Next.js 15 with App Router
+- **Framework**: Next.js 15 with App Router + Turbopack
 - **Language**: TypeScript (strict mode)
-- **UI**: Ant Design + Tailwind CSS
+- **UI**: Ant Design v5 + Tailwind CSS (with React 19 compatibility patch)
 - **State**: Zustand with Immer
 - **Validation**: Zod schemas
 - **API Client**: Axios with interceptors
+- **Internationalization**: next-intl (Spanish-first)
 - **Deployment**: Vercel (3 environments)
 
 ## 🎯 Current Implementation Status
@@ -112,14 +113,16 @@ src/
 - Type-safe API client
 - Security headers and CSP
 - Chilean utilities
-- Ant Design theme
+- Ant Design theme with React 19 compatibility
+- Spanish internationalization (next-intl)
 - GitHub Actions CI/CD
 - Multi-environment deployment
+- Firebase configuration
+- API integration with backend
 
 ### 🔄 In Progress:
-- Firebase authentication
-- Login forms
 - Dashboard components
+- Authentication workflow completion
 
 ### 📋 Planned:
 - SII document management
@@ -225,9 +228,17 @@ src/
 3. **Implement with security** - Follow all security practices
 4. **Add comprehensive tests** - Unit, integration, Chilean data
 5. **Update documentation** - README, comments, API docs
-6. **Create PR** - Use template, get reviews
-7. **Deploy to dev** - Test in development environment
-8. **Merge to main** - After approval for production
+6. **Start local server** - Run `npm run dev` for user testing
+7. **Wait for user confirmation** - DO NOT create PR until user confirms successful testing
+8. **Create PR** - Use template, get reviews (only after user approval)
+9. **Deploy to dev** - Test in development environment
+10. **Merge to main** - After approval for production
+
+### IMPORTANT: Testing Before PR Creation
+- **ALWAYS** start the development server before creating a PR
+- **WAIT** for the user to test functionality locally
+- **ONLY** create the PR after user confirms successful testing
+- This ensures quality and prevents broken deployments
 
 ### Code Quality Standards:
 - TypeScript strict mode (no `any` types)
@@ -280,5 +291,38 @@ Remember: This is a financial application handling sensitive Chilean tax and ban
 - Code review required
 - Branch protection enforced
 - No direct commits to main
+
+## 🚨 Critical Development Requirements
+
+### API Integration Requirements
+- **ALWAYS** check `/sii-api-v2` repository before implementing API features
+- **VERIFY** backend endpoint schemas match frontend expectations
+- **RESEARCH** API documentation and test endpoints before coding
+- **VALIDATE** payload formats with backend team
+
+### Spanish-First Localization Requirements
+- **NO ENGLISH** text in user interfaces (Spanish is mandatory)
+- **USE** translation keys for all user-facing text
+- **IMPLEMENT** Chilean localization standards (RUT format, CLP currency, DD/MM/YYYY dates)
+- **CONFIGURE** Spanish as default locale for Chilean users
+
+### Technology Stack Verification
+- **USE** WebSearch MCP to verify latest documentation before implementation
+- **CHECK** React 19 compatibility for all new dependencies
+- **VERIFY** Next.js 15 support for libraries and frameworks
+- **ENSURE** security and performance considerations are met
+
+### API Backend Integration Process
+1. **Read** relevant files in `/sii-api-v2` directory
+2. **Understand** backend schemas and endpoints
+3. **Verify** payload compatibility 
+4. **Test** API endpoints before frontend implementation
+5. **Coordinate** with backend team for changes
+
+### Quality Assurance
+- **TEST** all functionality with real Chilean data (valid RUTs, phone numbers)
+- **VERIFY** Spanish translations are accurate and professional
+- **ENSURE** compatibility with React 19 + Next.js 15 + Ant Design v5
+- **VALIDATE** security headers and CSP configuration
 
 This documentation ensures consistent, secure, and high-quality development practices for the AI Agentic Accounting System frontend.
