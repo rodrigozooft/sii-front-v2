@@ -295,10 +295,32 @@ Remember: This is a financial application handling sensitive Chilean tax and ban
 ## 🚨 Critical Development Requirements
 
 ### API Integration Requirements
-- **ALWAYS** check `/sii-api-v2` repository before implementing API features
+- **ALWAYS** check API documentation at `http://localhost:8001/api/v1/docs` before implementing features
+- **REVIEW** backend endpoint schemas in `/sii-api-v2` directory at the same level as `/sii-front-v2`
+- **EXECUTE** API endpoints with curl/bash to see actual response format before coding
 - **VERIFY** backend endpoint schemas match frontend expectations
 - **RESEARCH** API documentation and test endpoints before coding
 - **VALIDATE** payload formats with backend team
+- **TEST** API endpoints with real requests before frontend implementation
+
+#### API Testing Workflow
+1. **Check API Documentation**: Visit `http://localhost:8001/api/v1/docs`
+2. **Test with curl**: Execute actual API calls to see real response format
+3. **Compare with Frontend**: Ensure frontend schemas match actual API responses
+4. **Debug Response**: If validation fails, log actual response and compare with expected schema
+
+Example testing commands:
+```bash
+# Test registration endpoint
+curl -X POST http://localhost:8001/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"Test123!","name":"Test User","rut":"12345678-9"}'
+
+# Test login endpoint  
+curl -X POST http://localhost:8001/api/v1/auth/login/email \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"Test123!"}'
+```
 
 ### Spanish-First Localization Requirements
 - **NO ENGLISH** text in user interfaces (Spanish is mandatory)

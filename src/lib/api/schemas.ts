@@ -1,17 +1,32 @@
 import { z } from 'zod'
 
-// User schemas based on API v2 structure
+// User schemas based on API v2 structure (matches actual API response)
 export const UserSchema = z.object({
   id: z.string(),
   email: z.string().email(),
-  phone: z.string().optional(),
-  first_name: z.string(),
-  last_name: z.string(),
+  phone: z.string().nullable(), // Can be null or string (like "+56931402167")
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
+  name: z.string(), // Backend always returns 'name' field
   rut: z.string(),
+  firebase_uid: z.string(),
+  avatar_url: z.string().nullable(),
+  is_active: z.boolean(),
   is_verified: z.boolean(),
-  mfa_enabled: z.boolean(),
+  mfa_enabled: z.boolean().optional(),
   created_at: z.string(),
   updated_at: z.string(),
+}).transform((data) => {
+  // Handle case where backend returns 'name' instead of first_name/last_name
+  if (data.name && !data.first_name && !data.last_name) {
+    const nameParts = data.name.split(' ')
+    return {
+      ...data,
+      first_name: nameParts[0] || '',
+      last_name: nameParts.slice(1).join(' ') || '',
+    }
+  }
+  return data
 })
 
 export const CompanySchema = z.object({
@@ -49,6 +64,23 @@ export const VerifyCodeRequestSchema = z.object({
   code: z.string().length(6),
 })
 
+// Token object schema (as returned by backend)
+export const TokenSchema = z.object({
+  access_token: z.string(),
+  token_type: z.string(),
+  expires_in: z.number(),
+  refresh_token: z.string().nullable(),
+})
+
+// Backend LoginResponse schema (matches sii-api-v2 structure)
+export const LoginResponseSchema = z.object({
+  message: z.string(),
+  user: UserSchema.nullable().optional(),
+  token: TokenSchema.nullable().optional(),
+  instructions: z.record(z.string()).optional(),
+})
+
+// Legacy flat structure for backward compatibility
 export const AuthResponseSchema = z.object({
   access_token: z.string(),
   token_type: z.string(),
@@ -101,6 +133,8 @@ export type LoginRequest = z.infer<typeof LoginRequestSchema>
 export type RegisterRequest = z.infer<typeof RegisterRequestSchema>
 export type PhoneLoginRequest = z.infer<typeof PhoneLoginRequestSchema>
 export type VerifyCodeRequest = z.infer<typeof VerifyCodeRequestSchema>
+export type Token = z.infer<typeof TokenSchema>
+export type LoginResponse = z.infer<typeof LoginResponseSchema>
 export type AuthResponse = z.infer<typeof AuthResponseSchema>
 export type BankAccount = z.infer<typeof BankAccountSchema>
 export type Document = z.infer<typeof DocumentSchema>

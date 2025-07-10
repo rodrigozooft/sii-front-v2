@@ -29,8 +29,10 @@ if (typeof window !== 'undefined') {
   }
 
   // Initialize services
-  auth = getAuth(app)
-  db = getFirestore(app)
+  if (app) {
+    auth = getAuth(app)
+    db = getFirestore(app)
+  }
 
   // Initialize Analytics only if supported
   isSupported().then((supported) => {

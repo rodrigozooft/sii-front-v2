@@ -17,9 +17,17 @@ export const routing = defineRouting({
       es: '/auth/iniciar-sesion',
       en: '/auth/signin'
     },
+    '/auth/email-confirmation': {
+      es: '/auth/confirmar-email',
+      en: '/auth/email-confirmation'
+    },
     '/dashboard': {
       es: '/panel',
       en: '/dashboard'
+    },
+    '/companies/create': {
+      es: '/empresas/crear',
+      en: '/companies/create'
     }
   }
 })

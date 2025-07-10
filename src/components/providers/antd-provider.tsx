@@ -1,7 +1,10 @@
 'use client'
 
+// React 19 compatibility patch for Ant Design v5
+import '@ant-design/v5-patch-for-react-19'
+
 import React from 'react'
-import { ConfigProvider, theme, type ThemeConfig } from 'antd'
+import { ConfigProvider, theme, type ThemeConfig, App } from 'antd'
 import esES from 'antd/locale/es_ES'
 
 interface AntdProviderProps {
@@ -74,7 +77,9 @@ export function AntdProvider({ children }: AntdProviderProps): React.JSX.Element
       // Security: Disable dangerous components
       renderEmpty={() => null}
     >
-      {children}
+      <App>
+        {children}
+      </App>
     </ConfigProvider>
   )
 }

@@ -1,14 +1,13 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Form, Input, Button, Card, Typography, message, Space, Divider } from 'antd'
+import { Form, Input, Button, Card, Typography, Space, Divider, App } from 'antd'
 import { UserOutlined, MailOutlined, LockOutlined, PhoneOutlined, IdcardOutlined } from '@ant-design/icons'
-import { useRouter } from 'next/navigation'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/config'
+import { Link, useRouter } from '@/i18n/config'
 import { useAuthStore } from '@/store/auth'
 import { RutSchema, formatRut, cleanRut, ChileanPhoneSchema } from '@/utils/chile'
 import sanitizeHtml from 'sanitize-html'
@@ -16,7 +15,7 @@ import sanitizeHtml from 'sanitize-html'
 const { Title, Text } = Typography
 
 // Enhanced validation schema with Chilean-specific rules
-const createSignupFormSchema = (t: any) => z.object({
+const createSignupFormSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t('auth.signup.errors.emailInvalid')),
   password: z
     .string()
@@ -48,6 +47,7 @@ export default function SignupForm(): React.JSX.Element {
   const router = useRouter()
   const { register, isLoading: authLoading } = useAuthStore()
   const t = useTranslations()
+  const { message } = App.useApp()
 
   const SignupFormSchema = createSignupFormSchema(t)
   type SignupFormData = z.infer<typeof SignupFormSchema>
@@ -97,8 +97,8 @@ export default function SignupForm(): React.JSX.Element {
       }
 
       await register(sanitizedData)
-      message.success(t('auth.signup.success'))
-      router.push('/dashboard')
+      // Redirect to email confirmation page with user's email (using localized routing)
+      router.push(`/auth/email-confirmation?email=${encodeURIComponent(sanitizedData.email)}`)
     } catch (error) {
       console.error('Signup error:', error)
       const errorMessage = error instanceof Error ? error.message : t('auth.signup.errors.registrationFailed')
@@ -140,7 +140,7 @@ export default function SignupForm(): React.JSX.Element {
           <Space direction="vertical" size="large" style={{ width: '100%' }}>
             {/* Personal Information */}
             <div>
-              <Text strong>Personal Information</Text>
+              <Text strong>{t('auth.signup.personalInfo')}</Text>
               <Space direction="vertical" size="middle" style={{ width: '100%', marginTop: '12px' }}>
                 <Space.Compact style={{ width: '100%' }}>
                   <Controller
@@ -155,7 +155,7 @@ export default function SignupForm(): React.JSX.Element {
                         <Input
                           {...field}
                           prefix={<UserOutlined />}
-                          placeholder="First Name"
+                          placeholder={t('auth.signup.firstName')}
                           size="large"
                           maxLength={50}
                         />
@@ -173,7 +173,7 @@ export default function SignupForm(): React.JSX.Element {
                       >
                         <Input
                           {...field}
-                          placeholder="Last Name"
+                          placeholder={t('auth.signup.lastName')}
                           size="large"
                           maxLength={50}
                         />
@@ -194,7 +194,7 @@ export default function SignupForm(): React.JSX.Element {
                         {...field}
                         onChange={(e) => handleRutChange(e.target.value)}
                         prefix={<IdcardOutlined />}
-                        placeholder="Chilean RUT (e.g., 12.345.678-9)"
+                        placeholder={t('auth.signup.rut')}
                         size="large"
                         maxLength={12}
                       />
@@ -208,7 +208,7 @@ export default function SignupForm(): React.JSX.Element {
 
             {/* Contact Information */}
             <div>
-              <Text strong>Contact Information</Text>
+              <Text strong>{t('auth.signup.contactInfo')}</Text>
               <Space direction="vertical" size="middle" style={{ width: '100%', marginTop: '12px' }}>
                 <Controller
                   name="email"
@@ -221,7 +221,7 @@ export default function SignupForm(): React.JSX.Element {
                       <Input
                         {...field}
                         prefix={<MailOutlined />}
-                        placeholder="Email Address"
+                        placeholder={t('auth.signup.email')}
                         size="large"
                         type="email"
                         autoComplete="email"
@@ -241,7 +241,7 @@ export default function SignupForm(): React.JSX.Element {
                       <Input
                         {...field}
                         prefix={<PhoneOutlined />}
-                        placeholder="Phone Number (optional, +56912345678)"
+                        placeholder={t('auth.signup.phone')}
                         size="large"
                         type="tel"
                       />
@@ -255,7 +255,7 @@ export default function SignupForm(): React.JSX.Element {
 
             {/* Security */}
             <div>
-              <Text strong>Security</Text>
+              <Text strong>{t('auth.signup.security')}</Text>
               <Space direction="vertical" size="middle" style={{ width: '100%', marginTop: '12px' }}>
                 <Controller
                   name="password"
@@ -268,7 +268,7 @@ export default function SignupForm(): React.JSX.Element {
                       <Input.Password
                         {...field}
                         prefix={<LockOutlined />}
-                        placeholder="Password"
+                        placeholder={t('auth.signup.password')}
                         size="large"
                         autoComplete="new-password"
                       />
@@ -287,7 +287,7 @@ export default function SignupForm(): React.JSX.Element {
                       <Input.Password
                         {...field}
                         prefix={<LockOutlined />}
-                        placeholder="Confirm Password"
+                        placeholder={t('auth.signup.confirmPassword')}
                         size="large"
                         autoComplete="new-password"
                       />
@@ -310,14 +310,14 @@ export default function SignupForm(): React.JSX.Element {
                 fontWeight: '600'
               }}
             >
-              Create Account
+              {t('auth.signup.createAccount')}
             </Button>
 
             <div style={{ textAlign: 'center' }}>
               <Text type="secondary">
-                Already have an account?{' '}
+                {t('auth.signup.alreadyHaveAccount')}{' '}
                 <Link href="/auth/signin" style={{ color: '#1890ff', fontWeight: '500' }}>
-                  Sign in
+                  {t('auth.signup.signIn')}
                 </Link>
               </Text>
             </div>

@@ -38,6 +38,23 @@
         "registrationFailed": "Error en el registro. Por favor intenta nuevamente."
       }
     },
+    "emailConfirmation": {
+      "title": "Confirma tu correo electrónico",
+      "message": "¡Cuenta creada exitosamente! Hemos enviado un enlace de verificación a tu correo electrónico.",
+      "checkInbox": "Revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta.",
+      "checking": "Verificando estado del correo...",
+      "resendButton": "Reenviar correo de verificación",
+      "resendSuccess": "Correo reenviado exitosamente",
+      "resendError": "Error al reenviar el correo. Por favor intenta nuevamente.",
+      "backToLogin": "Volver al inicio de sesión",
+      "accountCreated": "Tu cuenta ha sido creada exitosamente",
+      "nextSteps": "Confirma tu correo electrónico para acceder a todas las funcionalidades del sistema.",
+      "verified": "¡Correo electrónico verificado exitosamente!",
+      "verifiedTitle": "¡Correo Verificado!",
+      "verifiedMessage": "Tu correo electrónico ha sido confirmado exitosamente. Ahora puedes acceder a todas las funcionalidades del sistema.",
+      "nextStepCompany": "El siguiente paso es crear tu empresa para comenzar con la contabilidad.",
+      "createCompany": "Crear Mi Empresa"
+    },
     "signin": {
       "title": "Iniciar Sesión",
       "subtitle": "Accede a tu cuenta del Sistema SII",
