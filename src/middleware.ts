@@ -1,10 +1,29 @@
+import createMiddleware from 'next-intl/middleware'
+import { routing } from './i18n/config'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(_request: NextRequest) {
-  // Create response with security headers
-  const response = NextResponse.next()
+// Create the internationalization middleware
+const intlMiddleware = createMiddleware(routing)
 
+export function middleware(request: NextRequest) {
+  // Handle internationalization first
+  const intlResponse = intlMiddleware(request)
+  
+  // If intlMiddleware returns a response (redirect/rewrite), use it
+  if (intlResponse) {
+    // Add security headers to the intl response
+    addSecurityHeaders(intlResponse)
+    return intlResponse
+  }
+
+  // Create response with security headers for non-intl requests
+  const response = NextResponse.next()
+  addSecurityHeaders(response)
+  return response
+}
+
+function addSecurityHeaders(response: NextResponse) {
   // Security Headers for OWASP compliance
   response.headers.set('X-DNS-Prefetch-Control', 'off')
   response.headers.set('X-Frame-Options', 'DENY')
@@ -27,15 +46,10 @@ export function middleware(_request: NextRequest) {
   
   response.headers.set('Content-Security-Policy', csp)
 
-  // Prevent clickjacking
-  response.headers.set('X-Frame-Options', 'DENY')
-
   // HSTS (only in production)
   if (process.env.NODE_ENV === 'production') {
     response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload')
   }
-
-  return response
 }
 
 export const config = {

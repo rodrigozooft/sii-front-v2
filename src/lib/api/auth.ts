@@ -1,6 +1,7 @@
 import { apiClient, apiRequest } from './client'
 import {
   AuthResponseSchema,
+  LoginResponseSchema,
   LoginRequestSchema,
   RegisterRequestSchema,
   PhoneLoginRequestSchema,
@@ -11,9 +12,24 @@ import {
   type PhoneLoginRequest,
   type VerifyCodeRequest,
   type AuthResponse,
+  type LoginResponse,
   type User,
 } from './schemas'
 import { z } from 'zod'
+
+// Helper function to transform LoginResponse to AuthResponse
+function transformLoginResponse(loginResponse: LoginResponse): AuthResponse {
+  if (!loginResponse.token || !loginResponse.user) {
+    throw new Error(`Authentication failed: ${loginResponse.message}`)
+  }
+  
+  return {
+    access_token: loginResponse.token.access_token,
+    token_type: loginResponse.token.token_type,
+    expires_in: loginResponse.token.expires_in,
+    user: loginResponse.user,
+  }
+}
 
 // Auth API endpoints
 export const authApi = {
@@ -21,10 +37,12 @@ export const authApi = {
   login: async (credentials: LoginRequest): Promise<AuthResponse> => {
     const validatedCredentials = LoginRequestSchema.parse(credentials)
     
-    return apiRequest(
+    const loginResponse = await apiRequest(
       () => apiClient.post('/auth/login/email', validatedCredentials),
-      AuthResponseSchema
+      LoginResponseSchema
     )
+    
+    return transformLoginResponse(loginResponse)
   },
 
   // User registration
@@ -37,10 +55,12 @@ export const authApi = {
   }): Promise<AuthResponse> => {
     const validatedUserData = RegisterRequestSchema.parse(userData)
     
-    return apiRequest(
+    const loginResponse = await apiRequest(
       () => apiClient.post('/auth/register', validatedUserData),
-      AuthResponseSchema
+      LoginResponseSchema
     )
+    
+    return transformLoginResponse(loginResponse)
   },
 
   // Phone login (send code)
@@ -57,10 +77,12 @@ export const authApi = {
   verifyPhoneCode: async (verificationData: VerifyCodeRequest): Promise<AuthResponse> => {
     const validatedVerificationData = VerifyCodeRequestSchema.parse(verificationData)
     
-    return apiRequest(
+    const loginResponse = await apiRequest(
       () => apiClient.post('/auth/phone/verify-code', validatedVerificationData),
-      AuthResponseSchema
+      LoginResponseSchema
     )
+    
+    return transformLoginResponse(loginResponse)
   },
 
   // Google OAuth URL
@@ -73,10 +95,12 @@ export const authApi = {
 
   // Google OAuth callback
   googleCallback: async (code: string, state: string): Promise<AuthResponse> => {
-    return apiRequest(
+    const loginResponse = await apiRequest(
       () => apiClient.post('/auth/google/callback', { code, state }),
-      AuthResponseSchema
+      LoginResponseSchema
     )
+    
+    return transformLoginResponse(loginResponse)
   },
 
   // Get current user profile
