@@ -35,8 +35,8 @@ export const LoginRequestSchema = z.object({
 export const RegisterRequestSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  name: z.string().min(1),
-  rut: z.string().regex(/^\d{7,8}-[\dK]$/, 'Invalid RUT format'),
+  name: z.string().min(2),
+  rut: z.string().optional(),
   phone: z.string().optional(),
 })
 
@@ -49,6 +49,23 @@ export const VerifyCodeRequestSchema = z.object({
   code: z.string().length(6),
 })
 
+// Token response schema (nested in LoginResponse)
+export const TokenResponseSchema = z.object({
+  access_token: z.string(),
+  token_type: z.string(),
+  expires_in: z.number(),
+  refresh_token: z.string().optional(),
+})
+
+// API Login response schema (actual format from API)
+export const LoginResponseSchema = z.object({
+  message: z.string(),
+  user: UserSchema.optional(),
+  token: TokenResponseSchema.optional(),
+  instructions: z.record(z.string()).optional(),
+})
+
+// Legacy AuthResponse schema (for backward compatibility)
 export const AuthResponseSchema = z.object({
   access_token: z.string(),
   token_type: z.string(),
@@ -101,6 +118,8 @@ export type LoginRequest = z.infer<typeof LoginRequestSchema>
 export type RegisterRequest = z.infer<typeof RegisterRequestSchema>
 export type PhoneLoginRequest = z.infer<typeof PhoneLoginRequestSchema>
 export type VerifyCodeRequest = z.infer<typeof VerifyCodeRequestSchema>
+export type TokenResponse = z.infer<typeof TokenResponseSchema>
+export type LoginResponse = z.infer<typeof LoginResponseSchema>
 export type AuthResponse = z.infer<typeof AuthResponseSchema>
 export type BankAccount = z.infer<typeof BankAccountSchema>
 export type Document = z.infer<typeof DocumentSchema>

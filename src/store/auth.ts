@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import { persist } from 'zustand/middleware'
-import type { User, AuthResponse } from '@/lib/api/schemas'
+import type { User, LoginResponse } from '@/lib/api/schemas'
 import { authApi } from '@/lib/api/auth'
 
 interface AuthState {
@@ -48,14 +48,19 @@ export const useAuthStore = create<AuthStore>()(
         })
 
         try {
-          const response: AuthResponse = await authApi.login({ email, password })
+          const response: LoginResponse = await authApi.login({ email, password })
+          
+          // Extract token and user from LoginResponse
+          if (!response.token || !response.user) {
+            throw new Error('Login succeeded but token or user data is missing')
+          }
           
           // Store token securely
-          localStorage.setItem('auth_token', response.access_token)
+          localStorage.setItem('auth_token', response.token.access_token)
           
           set((state) => {
-            state.user = response.user
-            state.token = response.access_token
+            state.user = response.user!
+            state.token = response.token!.access_token
             state.isAuthenticated = true
             state.isLoading = false
             state.error = null
@@ -86,16 +91,19 @@ export const useAuthStore = create<AuthStore>()(
             phone: userData.phone,
           }
           
-          console.log('Sending registration payload:', apiPayload)
+          const response: LoginResponse = await authApi.register(apiPayload)
           
-          const response: AuthResponse = await authApi.register(apiPayload)
+          // Extract token and user from LoginResponse
+          if (!response.token || !response.user) {
+            throw new Error('Registration succeeded but token or user data is missing')
+          }
           
           // Store token securely
-          localStorage.setItem('auth_token', response.access_token)
+          localStorage.setItem('auth_token', response.token.access_token)
           
           set((state) => {
-            state.user = response.user
-            state.token = response.access_token
+            state.user = response.user!
+            state.token = response.token!.access_token
             state.isAuthenticated = true
             state.isLoading = false
             state.error = null

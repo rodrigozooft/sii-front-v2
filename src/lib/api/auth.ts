@@ -1,6 +1,7 @@
 import { apiClient, apiRequest } from './client'
 import {
   AuthResponseSchema,
+  LoginResponseSchema,
   LoginRequestSchema,
   RegisterRequestSchema,
   PhoneLoginRequestSchema,
@@ -11,6 +12,7 @@ import {
   type PhoneLoginRequest,
   type VerifyCodeRequest,
   type AuthResponse,
+  type LoginResponse,
   type User,
 } from './schemas'
 import { z } from 'zod'
@@ -18,12 +20,12 @@ import { z } from 'zod'
 // Auth API endpoints
 export const authApi = {
   // Email/password login
-  login: async (credentials: LoginRequest): Promise<AuthResponse> => {
+  login: async (credentials: LoginRequest): Promise<LoginResponse> => {
     const validatedCredentials = LoginRequestSchema.parse(credentials)
     
     return apiRequest(
       () => apiClient.post('/auth/login/email', validatedCredentials),
-      AuthResponseSchema
+      LoginResponseSchema
     )
   },
 
@@ -32,14 +34,14 @@ export const authApi = {
     email: string
     password: string
     name: string
-    rut: string
+    rut?: string
     phone?: string
-  }): Promise<AuthResponse> => {
+  }): Promise<LoginResponse> => {
     const validatedUserData = RegisterRequestSchema.parse(userData)
     
     return apiRequest(
       () => apiClient.post('/auth/register', validatedUserData),
-      AuthResponseSchema
+      LoginResponseSchema
     )
   },
 
