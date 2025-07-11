@@ -445,13 +445,30 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
 ```
 
 ### Vercel Environment Configuration
+
+**IMPORTANT**: Configure environment variables directly in Vercel Dashboard, not in vercel.json
+
+**Required Environment Variables:**
+
 **Development Environment:**
-- `NEXT_PUBLIC_API_URL`: Development API URL
-- Firebase configuration for development
+- `NEXT_PUBLIC_API_URL`: Development API URL (e.g., `http://localhost:8001`)
+- `NEXT_PUBLIC_FIREBASE_API_KEY`: Firebase development key
+- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`: Firebase auth domain
+- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`: Firebase project ID
+- Other Firebase configuration variables
 
 **Production Environment:**
-- `NEXT_PUBLIC_API_URL`: Production API URL  
-- Firebase configuration for production
+- `NEXT_PUBLIC_API_URL`: Production API URL (e.g., `https://api.yourdomain.com`)
+- `NEXT_PUBLIC_FIREBASE_API_KEY`: Firebase production key
+- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`: Firebase auth domain
+- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`: Firebase project ID
+- Other Firebase configuration variables
+
+**How to Configure:**
+1. Go to Vercel project dashboard
+2. Navigate to Settings → Environment Variables
+3. Add each variable for the appropriate environment
+4. Never use `@secret_name` syntax in vercel.json - configure directly in dashboard
 
 ### GitHub Actions Secrets
 Required secrets for deployment automation:
