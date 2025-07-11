@@ -1,108 +1,233 @@
 import { z } from 'zod'
 
-// User schemas based on API v2 structure
-export const UserSchema = z.object({
-  id: z.string(),
-  email: z.string().email(),
-  phone: z.string().optional(),
-  first_name: z.string(),
-  last_name: z.string(),
-  rut: z.string(),
-  is_verified: z.boolean(),
-  mfa_enabled: z.boolean(),
-  created_at: z.string(),
-  updated_at: z.string(),
-})
+// ==========================================
+// Request Types (based on documentation)
+// ==========================================
 
-export const CompanySchema = z.object({
-  id: z.string(),
-  rut: z.string(),
-  name: z.string(),
-  address: z.string().optional(),
-  phone: z.string().optional(),
-  email: z.string().email().optional(),
-  industry: z.string().optional(),
-  created_at: z.string(),
-  updated_at: z.string(),
-})
-
-// Authentication schemas
-export const LoginRequestSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-})
-
+// Registration request
 export const RegisterRequestSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  first_name: z.string().min(1),
-  last_name: z.string().min(1),
-  rut: z.string().regex(/^\d{7,8}-[\dK]$/, 'Invalid RUT format'),
+  name: z.string().min(2),
   phone: z.string().optional(),
+  rut: z.string().optional(),
 })
 
+// Login request (for Firebase ID token validation)
+export const LoginRequestSchema = z.object({
+  email: z.string().email().optional(),
+  password: z.string().optional(),
+  id_token: z.string().optional(),
+})
+
+// Google login request
+export const GoogleLoginRequestSchema = z.object({
+  id_token: z.string(),
+})
+
+// Phone login request
 export const PhoneLoginRequestSchema = z.object({
-  phone: z.string().regex(/^\+56\d{9}$/, 'Invalid Chilean phone format'),
+  phone_number: z.string(),
+  verification_code: z.string().optional(),
 })
 
-export const VerifyCodeRequestSchema = z.object({
-  phone: z.string(),
-  code: z.string().length(6),
+// Phone send code request
+export const PhoneSendCodeRequestSchema = z.object({
+  phone_number: z.string(),
 })
 
-export const AuthResponseSchema = z.object({
+// Phone verify code request
+export const PhoneVerifyCodeRequestSchema = z.object({
+  phone_number: z.string(),
+  verification_code: z.string().length(6),
+})
+
+// Forgot password request
+export const ForgotPasswordRequestSchema = z.object({
+  email: z.string().email(),
+})
+
+// Email verification request
+export const EmailVerificationRequestSchema = z.object({
+  verification_code: z.string(),
+})
+
+// Logout request
+export const LogoutRequestSchema = z.object({
+  token: z.string(),
+})
+
+// User update request
+export const UserUpdateSchema = z.object({
+  name: z.string().min(2).max(255).optional(),
+  phone: z.string().max(20).optional(),
+  rut: z.string().max(12).optional(),
+  avatar_url: z.string().optional(),
+})
+
+// ==========================================
+// Response Types (based on documentation)
+// ==========================================
+
+// Token information
+export const TokenResponseSchema = z.object({
   access_token: z.string(),
   token_type: z.string(),
   expires_in: z.number(),
-  user: UserSchema,
+  refresh_token: z.string().nullable().optional(),
 })
 
-// Banking schemas
-export const BankAccountSchema = z.object({
+// Basic user information returned in authentication responses
+export const UserResponseSchema = z.object({
   id: z.string(),
-  bank_name: z.string(),
-  account_type: z.string(),
-  account_number: z.string(),
-  currency: z.enum(['CLP', 'USD', 'EUR']),
-  balance: z.number(),
+  firebase_uid: z.string(),
+  email: z.string(),
+  name: z.string(),
+  phone: z.string().nullable(),
+  rut: z.string().nullable(),
+  avatar_url: z.string().nullable(),
   is_active: z.boolean(),
-  last_sync: z.string().optional(),
-})
-
-// Document schemas
-export const DocumentSchema = z.object({
-  id: z.string(),
-  type: z.enum(['compra', 'venta', 'boleta_honorarios']),
-  folio: z.string(),
-  rut_emisor: z.string(),
-  razon_social: z.string(),
-  fecha: z.string(),
-  monto_neto: z.number(),
-  monto_iva: z.number(),
-  monto_total: z.number(),
-  estado: z.string(),
+  is_verified: z.boolean(),
   created_at: z.string(),
+  updated_at: z.string(),
 })
 
-// Service connection schemas
-export const ServiceConnectionSchema = z.object({
-  id: z.string(),
-  service_type: z.enum(['sii', 'bank']),
-  service_name: z.string(),
-  is_active: z.boolean(),
-  last_sync: z.string().optional(),
-  credentials_stored: z.boolean(),
-  created_at: z.string(),
+// Extended user profile
+export const UserProfileSchema = UserResponseSchema.extend({
+  company_count: z.number(),
+  current_company_id: z.string().optional(),
+  last_login: z.string().optional(),
 })
 
-// Export types
-export type User = z.infer<typeof UserSchema>
-export type Company = z.infer<typeof CompanySchema>
-export type LoginRequest = z.infer<typeof LoginRequestSchema>
+// Main authentication response format used by most auth endpoints
+export const LoginResponseSchema = z.object({
+  message: z.string(),
+  user: UserResponseSchema.nullable().optional(),
+  token: TokenResponseSchema.nullable().optional(),
+  instructions: z.record(z.string()).nullable().optional(),
+})
+
+// ==========================================
+// Error Response Types
+// ==========================================
+
+// Standard error response format from the API
+export const APIErrorSchema = z.object({
+  detail: z.string(),
+  type: z.string().optional(),
+  code: z.string().optional(),
+})
+
+// Validation error with field-specific details
+export const ValidationErrorSchema = z.object({
+  detail: z.array(z.object({
+    loc: z.array(z.union([z.string(), z.number()])),
+    msg: z.string(),
+    type: z.string(),
+  })),
+})
+
+// ==========================================
+// Multi-Factor Authentication Types
+// ==========================================
+
+// MFA enable request
+export const MFAEnableRequestSchema = z.object({
+  phone_number: z.string(),
+})
+
+// MFA verify request
+export const MFAVerifyRequestSchema = z.object({
+  code: z.string().length(6),
+})
+
+// MFA response
+export const MFAResponseSchema = z.object({
+  enabled: z.boolean(),
+  backup_codes: z.array(z.string()).optional(),
+})
+
+// ==========================================
+// Chilean-Specific Types
+// ==========================================
+
+// Chilean RUT validation
+export const ChileanRUTSchema = z.object({
+  number: z.string(),
+  checkDigit: z.string(),
+  formatted: z.string(),
+  isValid: z.boolean(),
+})
+
+// ==========================================
+// Utility Response Types
+// ==========================================
+
+// Paginated response
+export const PaginatedResponseSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
+  z.object({
+    items: z.array(itemSchema),
+    total: z.number(),
+    page: z.number(),
+    per_page: z.number(),
+    has_next: z.boolean(),
+    has_prev: z.boolean(),
+  })
+
+// Generic API response wrapper
+export const APIResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
+  z.object({
+    success: z.boolean(),
+    data: dataSchema.optional(),
+    error: APIErrorSchema.optional(),
+    meta: z.record(z.unknown()).optional(),
+  })
+
+// ==========================================
+// Type Exports
+// ==========================================
+
+// Request types
 export type RegisterRequest = z.infer<typeof RegisterRequestSchema>
+export type LoginRequest = z.infer<typeof LoginRequestSchema>
+export type GoogleLoginRequest = z.infer<typeof GoogleLoginRequestSchema>
 export type PhoneLoginRequest = z.infer<typeof PhoneLoginRequestSchema>
-export type VerifyCodeRequest = z.infer<typeof VerifyCodeRequestSchema>
-export type AuthResponse = z.infer<typeof AuthResponseSchema>
-export type BankAccount = z.infer<typeof BankAccountSchema>
-export type Document = z.infer<typeof DocumentSchema>
-export type ServiceConnection = z.infer<typeof ServiceConnectionSchema>
+export type PhoneSendCodeRequest = z.infer<typeof PhoneSendCodeRequestSchema>
+export type PhoneVerifyCodeRequest = z.infer<typeof PhoneVerifyCodeRequestSchema>
+export type ForgotPasswordRequest = z.infer<typeof ForgotPasswordRequestSchema>
+export type EmailVerificationRequest = z.infer<typeof EmailVerificationRequestSchema>
+export type LogoutRequest = z.infer<typeof LogoutRequestSchema>
+export type UserUpdate = z.infer<typeof UserUpdateSchema>
+
+// Response types
+export type TokenResponse = z.infer<typeof TokenResponseSchema>
+export type UserResponse = z.infer<typeof UserResponseSchema>
+export type UserProfile = z.infer<typeof UserProfileSchema>
+export type LoginResponse = z.infer<typeof LoginResponseSchema>
+export type APIError = z.infer<typeof APIErrorSchema>
+export type ValidationError = z.infer<typeof ValidationErrorSchema>
+
+// MFA types
+export type MFAEnableRequest = z.infer<typeof MFAEnableRequestSchema>
+export type MFAVerifyRequest = z.infer<typeof MFAVerifyRequestSchema>
+export type MFAResponse = z.infer<typeof MFAResponseSchema>
+
+// Chilean types
+export type ChileanRUT = z.infer<typeof ChileanRUTSchema>
+
+// Utility types
+export type PaginatedResponse<T> = {
+  items: T[]
+  total: number
+  page: number
+  per_page: number
+  has_next: boolean
+  has_prev: boolean
+}
+
+export type APIResponse<T = unknown> = {
+  success: boolean
+  data?: T
+  error?: APIError
+  meta?: Record<string, unknown>
+}

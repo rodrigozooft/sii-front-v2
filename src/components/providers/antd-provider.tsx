@@ -1,8 +1,18 @@
 'use client'
 
 import React from 'react'
-import { ConfigProvider, theme, type ThemeConfig } from 'antd'
+import { ConfigProvider, theme, type ThemeConfig, App } from 'antd'
 import esES from 'antd/locale/es_ES'
+
+// Suppress React 19 compatibility warning temporarily
+// TODO: Remove when Ant Design officially supports React 19
+const originalConsoleWarn = console.warn
+console.warn = (...args) => {
+  if (typeof args[0] === 'string' && args[0].includes('antd v5 support React is 16 ~ 18')) {
+    return
+  }
+  originalConsoleWarn.apply(console, args)
+}
 
 // Chilean-themed Ant Design configuration
 const chileanTheme: ThemeConfig = {
@@ -74,7 +84,9 @@ export function AntdProvider({ children }: AntdProviderProps): React.JSX.Element
       // Security: Disable dangerous components
       renderEmpty={() => null}
     >
-      {children}
+      <App>
+        {children}
+      </App>
     </ConfigProvider>
   )
 }

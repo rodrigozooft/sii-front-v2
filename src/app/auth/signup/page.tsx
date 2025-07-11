@@ -1,6 +1,6 @@
 import React from 'react'
-import SignupForm from '@/components/auth/signup-form'
-import type { Metadata } from 'next'
+import { SignUpForm } from '@/components/auth/SignUpForm'
+import type { Metadata, Viewport } from 'next'
 
 export const metadata: Metadata = {
   title: 'Sign Up - SII Accounting System',
@@ -9,6 +9,22 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow', // Don't index auth pages
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export default function SignupPage(): React.JSX.Element {
-  return <SignupForm />
+  return (
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '20px'
+    }}>
+      <SignUpForm />
+    </div>
+  )
 }

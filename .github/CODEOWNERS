@@ -1,0 +1,30 @@
+# Global ownership
+* @rodrigozooft
+
+# Frontend specific components
+/src/components/ @rodrigozooft
+/src/app/ @rodrigozooft
+
+# API and security critical files
+/src/lib/api/ @rodrigozooft
+/src/middleware.ts @rodrigozooft
+/src/utils/chile.ts @rodrigozooft
+
+# Configuration files require review
+/.github/ @rodrigozooft
+/next.config.ts @rodrigozooft
+/tsconfig.json @rodrigozooft
+/vercel.json @rodrigozooft
+/.eslintrc.json @rodrigozooft
+
+# Security and deployment
+/.github/workflows/ @rodrigozooft
+/CONTRIBUTING.md @rodrigozooft
+/CLAUDE.md @rodrigozooft
+
+# Package management
+/package.json @rodrigozooft
+/package-lock.json @rodrigozooft
+
+# Environment configuration
+/.env.* @rodrigozooft
