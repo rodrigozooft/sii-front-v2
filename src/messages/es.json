@@ -1,0 +1,57 @@
+{
+  "auth": {
+    "signin": {
+      "title": "Bienvenido de Vuelta",
+      "subtitle": "Inicia sesión en el Sistema de Contabilidad AI para SII",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "emailPlaceholder": "Correo Electrónico",
+      "passwordPlaceholder": "Contraseña",
+      "rememberMe": "Recordarme",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "signInButton": "Iniciar Sesión",
+      "orContinueWith": "O continúa con",
+      "signInWithGoogle": "Iniciar sesión con Google",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUp": "Regístrate",
+      "phoneLoginTitle": "Inicio de Sesión con Teléfono",
+      "phoneLoginSubtitle": "¡El inicio de sesión con número de teléfono estará disponible pronto!",
+      "useEmailInstead": "Usar correo electrónico",
+      "errors": {
+        "invalidEmail": "Por favor ingresa un correo electrónico válido",
+        "passwordRequired": "La contraseña es requerida",
+        "loginFailed": "Correo electrónico o contraseña inválidos. Por favor intenta de nuevo.",
+        "googleLoginFailed": "Error al iniciar sesión con Google"
+      },
+      "success": {
+        "welcome": "¡Bienvenido de vuelta! Redirigiendo al panel de control...",
+        "googleLoginSoon": "¡El inicio de sesión con Google estará disponible pronto!"
+      }
+    },
+    "signup": {
+      "title": "Crear Cuenta",
+      "subtitle": "Únete al Sistema de Contabilidad Ágil AI para SII",
+      "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Iniciar sesión"
+    },
+    "forgotPassword": {
+      "title": "¿Olvidaste tu Contraseña?",
+      "subtitle": "No te preocupes, te enviaremos instrucciones para restablecerla",
+      "email": "Correo Electrónico",
+      "sendInstructions": "Enviar Instrucciones",
+      "backToSignIn": "Volver a Iniciar Sesión",
+      "success": "¡Instrucciones enviadas! Revisa tu correo electrónico.",
+      "error": "Error al enviar instrucciones. Por favor intenta de nuevo."
+    },
+    "verifyEmail": {
+      "title": "Verificar Correo Electrónico",
+      "subtitle": "Por favor verifica tu dirección de correo electrónico",
+      "verifying": "Verificando...",
+      "success": "¡Correo electrónico verificado exitosamente!",
+      "error": "Error al verificar el correo electrónico",
+      "resendEmail": "Reenviar correo de verificación",
+      "resendSuccess": "¡Correo de verificación reenviado!",
+      "resendError": "Error al reenviar el correo de verificación"
+    }
+  }
+}

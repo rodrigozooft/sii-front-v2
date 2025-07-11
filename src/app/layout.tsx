@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AntdProvider } from "@/components/providers/antd-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
+import IntlProvider from "@/components/providers/intl-provider";
+import { getMessages } from 'next-intl/server';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,24 +22,32 @@ export const metadata: Metadata = {
   keywords: ["chile", "sii", "accounting", "AI", "automation", "RUT", "facturas"],
   authors: [{ name: "SII Accounting Team" }],
   robots: "index, follow",
-  viewport: "width=device-width, initial-scale=1",
 };
 
-export default function RootLayout({
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const messages = await getMessages({ locale: 'es' });
+  
   return (
     <html lang="es-CL">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <AntdProvider>
-            {children}
-          </AntdProvider>
-        </QueryProvider>
+        <IntlProvider locale="es" messages={messages}>
+          <QueryProvider>
+            <AntdProvider>
+              {children}
+            </AntdProvider>
+          </QueryProvider>
+        </IntlProvider>
       </body>
     </html>
   );

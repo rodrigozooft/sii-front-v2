@@ -3,9 +3,9 @@ import SigninForm from '@/components/auth/signin-form'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Iniciar Sesión - Sistema de Contabilidad SII',
-  description: 'Accede a tu cuenta del Sistema de Contabilidad Inteligente AI para Chile',
-  keywords: ['iniciar sesión', 'login', 'acceso', 'sii', 'chile', 'contabilidad'],
+  title: 'Sign In - SII Accounting System',
+  description: 'Access your AI Agentic Accounting System for Chile account',
+  keywords: ['signin', 'login', 'access', 'sii', 'chile', 'accounting'],
   robots: 'noindex, nofollow', // Don't index auth pages
 }
 
