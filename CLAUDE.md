@@ -101,6 +101,16 @@ hotfix/critical-security-patch
 hotfix/payment-processing-error
 ```
 
+## 🚫 Important: No AI Attribution in Commits
+
+**CRITICAL RULE**: Never include AI attribution in commit messages or PR descriptions. Keep all commits and PRs clean and professional without any reference to:
+- Claude, Anthropic, or any AI assistant
+- "Generated with Claude Code" or similar attribution
+- "Co-Authored-By: Claude" or AI co-authoring
+- Any mention of AI assistance in commit messages, PR titles, or descriptions
+
+All commits should appear as regular developer work without AI attribution.
+
 ### Step-by-Step Development Workflow
 
 #### 1. Pre-Implementation Checklist
