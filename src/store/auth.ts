@@ -86,6 +86,8 @@ export const useAuthStore = create<AuthStore>()(
             phone: userData.phone,
           }
           
+          console.log('Sending registration payload:', apiPayload)
+          
           const response: AuthResponse = await authApi.register(apiPayload)
           
           // Store token securely

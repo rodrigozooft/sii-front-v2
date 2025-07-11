@@ -34,11 +34,28 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error) => {
+    // Log error details for debugging
+    if (error.response) {
+      console.error('API Error Response:', {
+        status: error.response.status,
+        data: error.response.data,
+        headers: error.response.headers
+      })
+    }
+    
     // Handle authentication errors
     if (error.response?.status === 401) {
       localStorage.removeItem('auth_token')
       window.location.href = '/auth/signin'
     }
+    
+    // Enhance error message with API response
+    if (error.response?.data?.detail) {
+      error.message = error.response.data.detail
+    } else if (error.response?.data?.message) {
+      error.message = error.response.data.message
+    }
+    
     return Promise.reject(error)
   }
 )
