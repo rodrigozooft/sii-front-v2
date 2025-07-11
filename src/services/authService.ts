@@ -48,7 +48,8 @@ class AuthService {
   async signIn(email: string, password: string): Promise<LoginResponse> {
     try {
       // 1. Authenticate with Firebase
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      const firebaseAuth = auth()
+      const userCredential = await signInWithEmailAndPassword(firebaseAuth, email, password)
       
       // 2. Get Firebase ID token
       const idToken = await userCredential.user.getIdToken()
@@ -78,7 +79,8 @@ class AuthService {
   // Sign out
   async signOut(): Promise<void> {
     try {
-      await firebaseSignOut(auth)
+      const firebaseAuth = auth()
+      await firebaseSignOut(firebaseAuth)
       // Clear local storage
       localStorage.removeItem('sii_api_token')
       localStorage.removeItem('sii_user_data')
@@ -209,7 +211,8 @@ class AuthService {
 
   // Listen to Firebase auth state changes
   onAuthStateChange(callback: (user: FirebaseUser | null) => void) {
-    return onAuthStateChanged(auth, callback)
+    const firebaseAuth = auth()
+    return onAuthStateChanged(firebaseAuth, callback)
   }
 
   // Check if token is expired

@@ -1,28 +1,62 @@
-import { initializeApp } from 'firebase/app'
-import { getAuth, connectAuthEmulator } from 'firebase/auth'
+import { initializeApp, type FirebaseApp } from 'firebase/app'
+import { getAuth, connectAuthEmulator, type Auth } from 'firebase/auth'
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'demo-key',
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'demo-project.firebaseapp.com',
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'demo-project',
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'demo-project.appspot.com',
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '123456789',
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || '1:123456789:web:abcdef'
 }
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
+// Initialize Firebase lazily
+let app: FirebaseApp | null = null
+let auth: Auth | null = null
 
-// Initialize Firebase Authentication and get a reference to the service
-export const auth = getAuth(app)
-
-// Connect to Firebase Auth emulator in development
-if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATOR === 'true') {
-  connectAuthEmulator(auth, 'http://localhost:9099')
+// Function to initialize Firebase (only in browser environment)
+const initializeFirebase = (): FirebaseApp => {
+  if (app) return app
+  
+  // Only initialize in browser environment
+  if (typeof window === 'undefined') {
+    throw new Error('Firebase can only be initialized in browser environment')
+  }
+  
+  app = initializeApp(firebaseConfig)
+  return app
 }
 
-export default app
+// Function to get Firebase Auth (only in browser environment)
+const getFirebaseAuth = (): Auth => {
+  if (auth) return auth
+  
+  // Only initialize in browser environment
+  if (typeof window === 'undefined') {
+    throw new Error('Firebase Auth can only be initialized in browser environment')
+  }
+  
+  const firebaseApp = initializeFirebase()
+  auth = getAuth(firebaseApp)
+  
+  // Connect to Firebase Auth emulator in development
+  if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATOR === 'true') {
+    connectAuthEmulator(auth, 'http://localhost:9099')
+  }
+  
+  return auth
+}
+
+// Export auth getter instead of direct auth instance
+export { getFirebaseAuth as auth }
+
+// Export app getter
+export const getFirebaseApp = (): FirebaseApp => {
+  return initializeFirebase()
+}
+
+export default getFirebaseApp
 
 // Type-safe Firebase configuration check
 export const isFirebaseConfigured = (): boolean => {

@@ -169,19 +169,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize auth state
   useEffect(() => {
-    const unsubscribe = authService.onAuthStateChange((firebaseUser) => {
-      updateAuthState({ firebaseUser })
-      
-      // If Firebase user signs out, clear everything
-      if (!firebaseUser) {
-        authService.clearStoredAuth()
-        updateAuthState({
-          user: null,
-          apiToken: null,
-          loading: false,
-        })
-      }
-    })
+    // Only initialize Firebase auth listener in browser environment
+    if (typeof window === 'undefined') {
+      updateAuthState({ loading: false })
+      return
+    }
+
+    let unsubscribe: (() => void) | undefined
+
+    try {
+      unsubscribe = authService.onAuthStateChange((firebaseUser) => {
+        updateAuthState({ firebaseUser })
+        
+        // If Firebase user signs out, clear everything
+        if (!firebaseUser) {
+          authService.clearStoredAuth()
+          updateAuthState({
+            user: null,
+            apiToken: null,
+            loading: false,
+          })
+        }
+      })
+    } catch (error) {
+      console.warn('Firebase Auth not available:', error)
+      updateAuthState({ loading: false })
+    }
 
     // Load stored auth data
     const storedToken = authService.getStoredToken()
@@ -197,7 +210,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       updateAuthState({ loading: false })
     }
 
-    return unsubscribe
+    return () => {
+      if (unsubscribe) {
+        unsubscribe()
+      }
+    }
   }, [updateAuthState])
 
   const value: AuthContextType = {
