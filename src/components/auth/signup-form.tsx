@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Form, Input, Button, Card, Typography, message, Space, Divider } from 'antd'
+import { Form, Input, Button, Card, Typography, Space, Divider, App } from 'antd'
 import { UserOutlined, MailOutlined, LockOutlined, PhoneOutlined, IdcardOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 import { useForm, Controller } from 'react-hook-form'
@@ -48,6 +48,7 @@ export default function SignupForm(): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const { register, isLoading: authLoading } = useAuthStore()
+  const { message } = App.useApp()
 
   const {
     control,

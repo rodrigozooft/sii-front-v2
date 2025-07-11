@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   // Enable React Strict Mode
@@ -40,14 +43,12 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001',
   },
   
-  // Experimental features for better performance and security
-  experimental: {
-    turbo: {
-      rules: {
-        '*.ts': ['@typescript-eslint/recommended'],
-        '*.tsx': ['@typescript-eslint/recommended'],
-      },
-    },
+  // Turbopack configuration (migrated from experimental.turbo)
+  // Note: ESLint rules are handled by ESLint config, not Turbopack loaders
+  // Turbopack handles bundling, ESLint handles linting
+  turbopack: {
+    // Turbopack is now stable and works with zero configuration
+    // Custom rules can be added here if needed for specific loaders
   },
   
   // Image optimization security
@@ -58,4 +59,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

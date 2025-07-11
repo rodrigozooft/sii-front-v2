@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ConfigProvider, theme, type ThemeConfig } from 'antd'
+import { ConfigProvider, theme, type ThemeConfig, App } from 'antd'
 import esES from 'antd/locale/es_ES'
 
 // Chilean-themed Ant Design configuration
@@ -74,7 +74,9 @@ export function AntdProvider({ children }: AntdProviderProps): React.JSX.Element
       // Security: Disable dangerous components
       renderEmpty={() => null}
     >
-      {children}
+      <App>
+        {children}
+      </App>
     </ConfigProvider>
   )
 }

@@ -1,0 +1,57 @@
+{
+  "auth": {
+    "signin": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to SII AI Agentic Accounting System",
+      "email": "Email",
+      "phone": "Phone",
+      "emailPlaceholder": "Email Address",
+      "passwordPlaceholder": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "signInButton": "Sign In",
+      "orContinueWith": "Or continue with",
+      "signInWithGoogle": "Sign in with Google",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "phoneLoginTitle": "Phone Login",
+      "phoneLoginSubtitle": "Phone number login is coming soon!",
+      "useEmailInstead": "Use email instead",
+      "errors": {
+        "invalidEmail": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "loginFailed": "Invalid email or password. Please try again.",
+        "googleLoginFailed": "Failed to initiate Google login"
+      },
+      "success": {
+        "welcome": "Welcome back! Redirecting to dashboard...",
+        "googleLoginSoon": "Google login coming soon!"
+      }
+    },
+    "signup": {
+      "title": "Create Account",
+      "subtitle": "Join SII AI Agentic Accounting System",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "forgotPassword": {
+      "title": "Forgot Your Password?",
+      "subtitle": "No worries, we'll send you reset instructions",
+      "email": "Email Address",
+      "sendInstructions": "Send Instructions",
+      "backToSignIn": "Back to Sign In",
+      "success": "Instructions sent! Check your email.",
+      "error": "Failed to send instructions. Please try again."
+    },
+    "verifyEmail": {
+      "title": "Verify Email",
+      "subtitle": "Please verify your email address",
+      "verifying": "Verifying...",
+      "success": "Email verified successfully!",
+      "error": "Failed to verify email",
+      "resendEmail": "Resend verification email",
+      "resendSuccess": "Verification email resent!",
+      "resendError": "Failed to resend verification email"
+    }
+  }
+}
