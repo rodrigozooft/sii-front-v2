@@ -11,7 +11,8 @@ export const apiClient: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true,
+  // Only use credentials in production or when explicitly needed
+  withCredentials: process.env.NODE_ENV === 'production',
 })
 
 // Request interceptor for authentication

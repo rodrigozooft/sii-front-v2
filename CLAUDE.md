@@ -525,8 +525,23 @@ time npm run build
 
 ### API Connection Issues
 - Ensure API server runs on `http://localhost:8001`
-- Check CORS configuration in API
+- **CORS Configuration**: If you get CORS errors locally, ensure the API has proper CORS headers configured
+- For local development, the API should allow requests from `http://localhost:3000`
 - Verify environment variables are set
+- Test API connectivity: `curl http://localhost:8001/api/v1/auth/register` should return method details
+
+### Common Local Development Issues
+
+**CORS Errors:**
+```bash
+# The API needs to be configured to allow requests from localhost:3000
+# Check that the API server has CORS middleware configured for development
+```
+
+**Port Conflicts:**
+- Frontend runs on port 3000 (`npm run dev`)
+- API should run on port 8001
+- Use `npm run dev` to ensure consistent port usage
 
 ### Type Errors
 - Run `npm run type-check` to identify issues
