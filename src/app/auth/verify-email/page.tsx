@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import EmailVerification from '@/components/auth/email-verification'
+import EmailVerification from '@/components/auth/EmailVerification'
 import type { Metadata } from 'next'
 import { Spin } from 'antd'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import SigninForm from '@/components/auth/signin-form'
+import { SignInForm } from '@/components/auth/SignInForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -10,5 +10,16 @@ export const metadata: Metadata = {
 }
 
 export default function SigninPage(): React.JSX.Element {
-  return <SigninForm />
+  return (
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '20px'
+    }}>
+      <SignInForm />
+    </div>
+  )
 }

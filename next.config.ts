@@ -40,7 +40,7 @@ const nextConfig: NextConfig = {
   
   // Environment variable validation
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1',
   },
   
   // Turbopack configuration (migrated from experimental.turbo)

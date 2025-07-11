@@ -129,7 +129,7 @@ git checkout -b feature/your-descriptive-name
 
 # ✅ Step 3: Verify Local Environment
 npm run dev  # Ensure frontend starts correctly
-curl http://localhost:8001/api/v1/health  # Verify API connection
+curl http://localhost:8001/health  # Verify API connection
 ```
 
 #### 2. Development Process

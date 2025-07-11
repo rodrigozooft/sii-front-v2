@@ -3,7 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AntdProvider } from "@/components/providers/antd-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import IntlProvider from "@/components/providers/intl-provider";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { getMessages } from 'next-intl/server';
+import "@ant-design/v5-patch-for-react-19";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -44,7 +46,9 @@ export default async function RootLayout({
         <IntlProvider locale="es" messages={messages}>
           <QueryProvider>
             <AntdProvider>
-              {children}
+              <AuthProvider>
+                {children}
+              </AuthProvider>
             </AntdProvider>
           </QueryProvider>
         </IntlProvider>

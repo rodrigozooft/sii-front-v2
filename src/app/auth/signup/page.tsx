@@ -1,5 +1,5 @@
 import React from 'react'
-import SignupForm from '@/components/auth/signup-form'
+import { SignUpForm } from '@/components/auth/SignUpForm'
 import type { Metadata, Viewport } from 'next'
 
 export const metadata: Metadata = {
@@ -15,5 +15,16 @@ export const viewport: Viewport = {
 }
 
 export default function SignupPage(): React.JSX.Element {
-  return <SignupForm />
+  return (
+    <div style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '20px'
+    }}>
+      <SignUpForm />
+    </div>
+  )
 }

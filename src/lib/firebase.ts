@@ -1,7 +1,5 @@
-import { initializeApp, getApps, type FirebaseApp } from 'firebase/app'
-import { getAuth, type Auth } from 'firebase/auth'
-import { getFirestore, type Firestore } from 'firebase/firestore'
-import { getAnalytics, isSupported, type Analytics } from 'firebase/analytics'
+import { initializeApp } from 'firebase/app'
+import { getAuth, connectAuthEmulator } from 'firebase/auth'
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -10,38 +8,21 @@ const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 }
 
-// Initialize Firebase only on client side
-let app: FirebaseApp | undefined
-let auth: Auth | undefined
-let db: Firestore | undefined
-let analytics: Analytics | undefined
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
 
-if (typeof window !== 'undefined') {
-  // Check if Firebase app is already initialized
-  if (!getApps().length) {
-    app = initializeApp(firebaseConfig)
-  } else {
-    app = getApps()[0]
-  }
+// Initialize Firebase Authentication and get a reference to the service
+export const auth = getAuth(app)
 
-  // Initialize services
-  auth = getAuth(app)
-  db = getFirestore(app!)
-
-  // Initialize Analytics only if supported
-  isSupported().then((supported) => {
-    if (supported && app) {
-      analytics = getAnalytics(app)
-    }
-  })
+// Connect to Firebase Auth emulator in development
+if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATOR === 'true') {
+  connectAuthEmulator(auth, 'http://localhost:9099')
 }
 
-// Export Firebase services
-export { app, auth, db, analytics }
+export default app
 
 // Type-safe Firebase configuration check
 export const isFirebaseConfigured = (): boolean => {
